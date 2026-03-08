@@ -1,0 +1,76 @@
+* {
+    font-family: "Maple Mono NF", "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transition: none;
+}
+
+window {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+#input {
+    all: unset;
+    background-color: transparent;
+    color: #ffffff;
+    padding: 12px 22px 12px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 15px;
+    font-weight: bold;
+    caret-color: #ffffff;
+}
+
+#input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+#inner-box {
+    background: transparent;
+    padding: 8px 0;
+}
+
+#outer-box {
+    background: transparent;
+}
+
+#scroll {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+#entry {
+    all: unset;
+    padding: 6px 22px 6px 20px;
+    color: #ffffff;
+    background: transparent;
+    border-radius: 0;
+    transition: none;
+}
+
+#entry:selected {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 6px;
+    margin: 0 6px;
+    padding: 6px 22px 6px 30px;
+}
+
+#entry:hover {
+    background: transparent;
+    color: #ffffff;
+}
+
+#text {
+    color: inherit;
+    font-size: 13px;
+}
+
+#text:selected {
+    color: #000000;
+    font-weight: bold;
+}
