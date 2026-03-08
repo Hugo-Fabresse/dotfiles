@@ -1,3 +1,15 @@
 [submodule "zsh"]
 	path = zsh
 	url = git@github.com:Hugo-Fabresse/dotfiles-zsh.git
+[submodule "hypr"]
+	path = hypr
+	url = git@github.com:Hugo-Fabresse/dotfiles-hypr.git
+[submodule "kitty"]
+	path = kitty
+	url = git@github.com:Hugo-Fabresse/dotfiles-kitty.git
+[submodule "waybar"]
+	path = waybar
+	url = git@github.com:Hugo-Fabresse/dotfiles-waybar.git
+[submodule "wofi"]
+	path = wofi
+	url = git@github.com:Hugo-Fabresse/dotfiles-wofi.git
