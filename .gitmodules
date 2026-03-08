@@ -13,3 +13,6 @@
 [submodule "wofi"]
 	path = wofi
 	url = git@github.com:Hugo-Fabresse/dotfiles-wofi.git
+[submodule "nvim"]
+	path = nvim
+	url = git@github.com:Hugo-Fabresse/dotfiles-nvim.git
