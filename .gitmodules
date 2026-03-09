@@ -16,3 +16,6 @@
 [submodule "nvim"]
 	path = nvim
 	url = git@github.com:Hugo-Fabresse/dotfiles-nvim.git
+[submodule "mako"]
+	path = mako
+	url = git@github.com:Hugo-Fabresse/dotfiles-mako.git
