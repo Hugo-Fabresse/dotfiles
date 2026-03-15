@@ -19,3 +19,6 @@
 [submodule "dunst"]
 	path = dunst
 	url = git@github.com:Hugo-Fabresse/dotfiles-dunst.git
+[submodule "dentry"]
+	path = dentry
+	url = https://github.com/Hugo-Fabresse/dentry
