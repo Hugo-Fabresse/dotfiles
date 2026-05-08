@@ -1,0 +1,25 @@
+/* ───────────────────────────────────────────
+   Noir absolu sur toutes les pages
+   Force #000000 la ou le darkmode Chromium met du gris
+   ─────────────────────────────────────────── */
+
+html, body,
+main, article, section, aside, nav, header, footer,
+div, form, fieldset, table, thead, tbody, tfoot, tr, td, th {
+    background-color: #000000 !important;
+}
+
+/* Scrollbar noire */
+::-webkit-scrollbar {
+    background: #000000 !important;
+    width: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444444 !important;
+    border-radius: 4px !important;
+}
