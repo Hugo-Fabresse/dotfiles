@@ -58,3 +58,12 @@ hint: 'git pull' before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 fatal: run_command returned non-zero status for dentry
 .
+[main 2e50974] auto: weekly push 2026-05-08
+ 6 files changed, 672 insertions(+)
+ create mode 100644 qutebrowser/config.py
+ create mode 100644 qutebrowser/dark.css
+ create mode 100755 scripts/bin/notif_panel.py
+ create mode 100755 scripts/bin/notif_waybar.sh
+ create mode 100755 scripts/minimize.sh
+To github.com:Hugo-Fabresse/dotfiles.git
+   6ea655e..2e50974  main -> main
