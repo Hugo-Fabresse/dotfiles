@@ -22,3 +22,6 @@
 [submodule "dentry"]
 	path = dentry
 	url = https://github.com/Hugo-Fabresse/dentry
+[submodule "ash"]
+	path = ash
+	url = https://github.com/Hugo-Fabresse/ash
