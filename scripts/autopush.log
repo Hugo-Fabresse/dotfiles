@@ -67,3 +67,16 @@ fatal: run_command returned non-zero status for dentry
  create mode 100755 scripts/minimize.sh
 To github.com:Hugo-Fabresse/dotfiles.git
    6ea655e..2e50974  main -> main
+Entering 'ash'
+Everything up-to-date
+Entering 'dentry'
+To https://github.com/Hugo-Fabresse/dentry
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/Hugo-Fabresse/dentry'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+fatal: run_command returned non-zero status for dentry
+.
