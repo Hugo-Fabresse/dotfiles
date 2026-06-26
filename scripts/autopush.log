@@ -80,3 +80,11 @@ hint: 'git pull' before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 fatal: run_command returned non-zero status for dentry
 .
+[main 168acdd] auto: weekly push 2026-06-05
+ 1 file changed, 13 insertions(+)
+To github.com:Hugo-Fabresse/dotfiles.git
+   f1c24d9..168acdd  main -> main
+Entering 'ash'
+fatal: unable to access 'https://github.com/Hugo-Fabresse/ash/': Could not resolve host: github.com
+fatal: run_command returned non-zero status for ash
+.
