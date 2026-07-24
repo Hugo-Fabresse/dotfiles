@@ -15,7 +15,7 @@ c.url.searchengines = {"DEFAULT": "https://www.google.com/search?q={}"}
 
 # Fake Chrome user-agent (Google login)
 config.set("content.headers.user_agent",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
     "https://*.google.com/*")
 
 # ───────────────────────────────────────────
@@ -171,7 +171,7 @@ c.colors.keyhint.suffix.fg = "#aaaaaa"
 # COMPORTEMENT
 # ───────────────────────────────────────────
 c.scrolling.smooth = True
-c.content.blocking.method = "adblock"
+c.content.blocking.method = "both"
 c.content.blocking.adblock.lists = [
     "https://easylist.to/easylist/easylist.txt",
     "https://easylist.to/easylist/easyprivacy.txt",
@@ -179,7 +179,7 @@ c.content.blocking.adblock.lists = [
 ]
 c.content.autoplay = False
 c.content.notifications.enabled = False
-c.content.javascript.clipboard = "access"
+c.content.javascript.clipboard = "access-paste"
 c.downloads.location.directory = "~/Downloads"
 c.editor.command = ["kitty", "--", "nvim", "{file}"]
 c.auto_save.session = True

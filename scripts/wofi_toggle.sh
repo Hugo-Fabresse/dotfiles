@@ -6,6 +6,6 @@ if pgrep -x "wofi" > /dev/null; then
     pkill -x "wofi"
 else
     # Lance wofi
-    wofi --show drun &
+    wofi --show drun --style ~/.config/wofi/style.css --conf ~/.config/wofi/config &
 fi
 

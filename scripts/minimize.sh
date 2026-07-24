@@ -11,7 +11,8 @@ fi
 windows=$(hyprctl clients -j | jq -r '.[] | select(.workspace.name == "special:minimized") | "\(.address) \(.class) — \(.title)"')
 
 if [ -z "$windows" ]; then
-    windows=""
+    notify-send "Minimize" "Aucune fenêtre minimisée"
+    exit 0
 fi
 
 chosen=$(echo -n "$windows" | wofi --show dmenu --prompt "" --style ~/.config/wofi/style.css --conf ~/.config/wofi/config)

@@ -7,6 +7,6 @@ if pgrep -x "waybar" > /dev/null; then
     pkill -x waybar
 else
     # relance Waybar si non actif
-    waybar -c ~/.local/share/hypr/waybar/config -s ~/.local/share/hypr/waybar/style.css
+    waybar -c ~/.config/waybar/config -s ~/.config/waybar/style.css
 fi
 
