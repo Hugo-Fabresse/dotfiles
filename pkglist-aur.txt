@@ -1,0 +1,7 @@
+browsh-bin
+dentry
+discordo-git
+google-chrome
+jetbrains-toolbox
+linear-desktop-bin
+maplemono-otf
