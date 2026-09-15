@@ -265,5 +265,11 @@ void main() {
 
     float fw = fwidth(mergedSdf);
     float alpha = 1.0 - smoothstep(-fw, fw, mergedSdf);
-    fragColor = vec4(color.rgb * alpha, alpha) * qt_Opacity;
+    // MODIFIÉ (hors référence) : le shader original ignorait color.a et
+    // sortait toujours une couleur pleinement opaque à l'intérieur de la
+    // forme. On multiplie par color.a pour permettre une pilule
+    // semi-transparente (nécessaire pour laisser Hyprland flouter ce qu'il
+    // y a derrière, comme pour wofi) — le calcul de fusion/arrondi
+    // lui-même reste inchangé.
+    fragColor = vec4(color.rgb * alpha * color.a, alpha * color.a) * qt_Opacity;
 }

@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland
 import Quickshell.Services.Pipewire
 import Caelestia.Blobs
 
@@ -117,6 +118,15 @@ Scope {
         readonly property int pillWidth: 56
         readonly property int pillHeight: 180
 
+        // Toujours sur l'écran interne du laptop, jamais sur un moniteur
+        // externe branché (sinon Quickshell choisit arbitrairement lequel
+        // affiche la pilule selon l'ordre de connexion).
+        screen: Quickshell.screens.find(s => s.name === "eDP-1") ?? Quickshell.screens[0]
+
+        // Namespace dédié pour cibler cette fenêtre précisément dans la
+        // règle de flou Hyprland (layerrule), comme pour wofi/waybar.
+        WlrLayershell.namespace: "quickshell-osd"
+
         // Fenêtre sur toute la hauteur de l'écran, collée à droite — comme
         // la vraie bordure de Caelestia qui longe tout le bord, pas juste
         // une zone autour de la pilule. La pilule elle-même reste centrée
@@ -150,7 +160,10 @@ Scope {
 
             BlobGroup {
                 id: blobGroup
-                color: "#ffffff"
+                // Quasiment transparent (même valeur que wofi : rgba(200,
+                // 200, 200, 0.01) dans wofi/style.css) — c'est le flou
+                // Hyprland qui fait tout le travail visuel, pas la couleur.
+                color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.01)
                 smoothing: 32
             }
 
