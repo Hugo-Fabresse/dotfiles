@@ -1,0 +1,3 @@
+# Build artifacts for the vendored Caelestia.Blobs QML plugin — compiled
+# locally by bootstrap.sh, not portable across machines/Qt versions.
+quickshell/osd/vendor/build/

@@ -51,6 +51,8 @@ install_packages() {
         kitty zsh zsh-autosuggestions zsh-syntax-highlighting fastfetch
         # Audio
         pipewire pipewire-pulse wireplumber pavucontrol playerctl
+        # Widgets / OSD
+        quickshell
         # Network
         networkmanager network-manager-applet
         # Brightness & screenshots
@@ -61,8 +63,8 @@ install_packages() {
         wl-clipboard cliphist
         # Fonts
         ttf-jetbrains-mono-nerd noto-fonts-emoji
-        # Build tools (for ash/dentry)
-        cmake base-devel qt6-base
+        # Build tools (for ash/dentry, and the quickshell OSD blob plugin)
+        cmake base-devel qt6-base qt6-declarative qt6-shadertools
         # Tools
         fzf pacman-contrib git jq imagemagick libnotify
         # Flatpak
@@ -178,6 +180,7 @@ create_symlinks() {
     link "$DOTFILES/wofi"          "$HOME/.config/wofi"
     link "$DOTFILES/nvim"          "$HOME/.config/nvim"
     link "$DOTFILES/qutebrowser"   "$HOME/.config/qutebrowser"
+    link "$DOTFILES/quickshell"    "$HOME/.config/quickshell"
 
     # Dunst (single file, not full directory)
     mkdir -p "$HOME/.config/dunst"
@@ -236,6 +239,21 @@ build_custom_apps() {
     build_app "dentry" || true
 }
 
+# Vendored Caelestia.Blobs QML plugin — compiled locally, not committed
+# (see quickshell/osd/vendor/README.md). Needed by the volume OSD's
+# "melt into the screen edge" rounding effect.
+build_quickshell_osd_plugin() {
+    local dir="$DOTFILES/quickshell/osd/vendor"
+    if [ ! -f "$dir/CMakeLists.txt" ]; then
+        err "quickshell OSD plugin: CMakeLists.txt not found, skipping"
+        return 1
+    fi
+    info "Building quickshell OSD blob plugin..."
+    cmake -S "$dir" -B "$dir/build" -DCMAKE_BUILD_TYPE=Release
+    cmake --build "$dir/build" -j"$(nproc)"
+    ok "quickshell OSD blob plugin built"
+}
+
 # -------------------------------------------
 # 7. Services
 # -------------------------------------------
@@ -285,6 +303,7 @@ main() {
     create_symlinks
     install_scripts
     build_custom_apps
+    build_quickshell_osd_plugin
     enable_services
     setup_cron
 

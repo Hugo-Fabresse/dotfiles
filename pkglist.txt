@@ -76,6 +76,7 @@ python-dbus
 python-html2text
 python-pyqt6
 python-requests
+quickshell
 qutebrowser
 ripgrep
 rustscan
