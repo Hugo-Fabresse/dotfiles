@@ -149,12 +149,17 @@ Scope {
                 // glyphe -> pourcentage pendant le déplacement. Interactif :
                 // on peut aussi glisser dedans pour changer le volume.
                 FilledSlider {
-                    anchors.fill: parent
-                    anchors.margins: 6
+                    width: 35
+                    height: 150
+                    anchors.centerIn: parent
 
-                    icon: root.muted ? ""
-                          : (root.volume < 0.01 ? ""
-                             : (root.volume < 0.5 ? "" : ""))
+                    // Codepoints vérifiés directement dans la police
+                    // installée (md-volume_mute/low/medium/high) — pas
+                    // devinés, glyphes confirmés visuellement au préalable.
+                    icon: (root.muted || root.volume < 0.01) ? String.fromCodePoint(0xF075F)
+                          : (root.volume < 0.34) ? String.fromCodePoint(0xF057F)
+                          : (root.volume < 0.67) ? String.fromCodePoint(0xF0580)
+                          : String.fromCodePoint(0xF057E)
                     value: root.muted ? 0 : root.volume
                     to: 1.0
 
