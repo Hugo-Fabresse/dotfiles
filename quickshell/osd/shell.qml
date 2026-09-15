@@ -1,38 +1,109 @@
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.Pipewire
 import Caelestia.Blobs
 
-// Volume OSD — pilule rétractable sur le centre du bord droit de l'écran.
-// Se déclenche sur tout changement de volume/mute PipeWire (touches,
-// wpctl, une app qui coupe le son, etc), pas seulement sur des keybinds.
+// OSD son + luminosité — une seule pilule partagée au centre du bord droit.
+// Affiche le contenu de la dernière source déclenchée (son ou luminosité) ;
+// comme les deux ne se déclenchent jamais en même temps, un seul process/
+// fenêtre suffit et évite tout problème d'ordre d'empilement entre deux
+// fenêtres séparées.
 
 Scope {
     id: root
 
-    // Garde le node du sink par défaut suivi (sinon ses propriétés
-    // audio.volume / audio.muted restent invalides).
+    // ---------------------------------------------------------------
+    // Son (PipeWire)
+    // ---------------------------------------------------------------
     PwObjectTracker {
         objects: [Pipewire.defaultAudioSink]
     }
 
     readonly property real volume: Pipewire.defaultAudioSink?.audio.volume ?? 0
     readonly property bool muted: Pipewire.defaultAudioSink?.audio.muted ?? false
-    property bool shown: false
 
     Connections {
         target: Pipewire.defaultAudioSink?.audio
 
         function onVolumeChanged() {
+            root.activeMode = "volume";
             root.shown = true;
             hideTimer.restart();
         }
 
         function onMutedChanged() {
+            root.activeMode = "volume";
             root.shown = true;
             hideTimer.restart();
         }
     }
+
+    // ---------------------------------------------------------------
+    // Luminosité (/sys/class/backlight)
+    // ---------------------------------------------------------------
+    readonly property string backlightDevice: "amdgpu_bl1"
+    readonly property string brightnessPath: "/sys/class/backlight/" + backlightDevice + "/brightness"
+
+    property real maxBrightness: 65535 // écrasé au démarrage par maxBrightnessProc
+    property real brightness: 0
+    property bool brightnessInitialized: false
+
+    // Lu une seule fois au démarrage (max_brightness ne change jamais).
+    Process {
+        id: maxBrightnessProc
+        command: ["cat", "/sys/class/backlight/" + root.backlightDevice + "/max_brightness"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const v = Number(text.trim());
+                if (!isNaN(v) && v > 0)
+                    root.maxBrightness = v;
+            }
+        }
+    }
+
+    // Le noyau émet un événement inotify sur ce fichier à chaque
+    // changement (touches, brightnessctl externe, notre propre slider) —
+    // FileView le relit automatiquement, pas de polling.
+    FileView {
+        id: brightnessFile
+        path: root.brightnessPath
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: {
+            const v = Number(text().trim());
+            if (isNaN(v) || root.maxBrightness <= 0)
+                return;
+            root.brightness = v / root.maxBrightness;
+
+            if (root.brightnessInitialized) {
+                root.activeMode = "brightness";
+                root.shown = true;
+                hideTimer.restart();
+            } else {
+                root.brightnessInitialized = true;
+            }
+        }
+    }
+
+    Process {
+        id: setBrightnessProc
+        stdout: StdioCollector {}
+    }
+
+    function setBrightness(percent) {
+        setBrightnessProc.command = ["brightnessctl", "--device=" + backlightDevice, "set", Math.round(percent * 100) + "%", "-q"];
+        setBrightnessProc.running = true;
+    }
+
+    // ---------------------------------------------------------------
+    // État d'affichage partagé
+    // ---------------------------------------------------------------
+    // "volume" ou "brightness" — la dernière source déclenchée gagne
+    // l'affichage de la pilule unique.
+    property string activeMode: "volume"
+    property bool shown: false
 
     Timer {
         id: hideTimer
@@ -147,23 +218,36 @@ Scope {
                 // Le vrai FilledSlider de la référence (copié verbatim dans
                 // FilledSlider.qml) — fond + poignée blanche qui se remplit,
                 // glyphe -> pourcentage pendant le déplacement. Interactif :
-                // on peut aussi glisser dedans pour changer le volume.
+                // on peut aussi glisser dedans pour changer la valeur.
+                // Contenu (icône/valeur/action) basculé selon activeMode.
                 FilledSlider {
                     width: 35
                     height: 150
                     anchors.centerIn: parent
 
                     // Codepoints vérifiés directement dans la police
-                    // installée (md-volume_mute/low/medium/high) — pas
-                    // devinés, glyphes confirmés visuellement au préalable.
-                    icon: (root.muted || root.volume < 0.01) ? String.fromCodePoint(0xF075F)
-                          : (root.volume < 0.34) ? String.fromCodePoint(0xF057F)
-                          : (root.volume < 0.67) ? String.fromCodePoint(0xF0580)
-                          : String.fromCodePoint(0xF057E)
-                    value: root.muted ? 0 : root.volume
+                    // installée — pas devinés, glyphes confirmés
+                    // visuellement au préalable (md-volume_* et
+                    // md-brightness_1/4/7).
+                    icon: root.activeMode === "volume"
+                          ? ((root.muted || root.volume < 0.01) ? String.fromCodePoint(0xF075F)
+                             : (root.volume < 0.34) ? String.fromCodePoint(0xF057F)
+                             : (root.volume < 0.67) ? String.fromCodePoint(0xF0580)
+                             : String.fromCodePoint(0xF057E))
+                          : ((root.brightness < 0.34) ? String.fromCodePoint(0xF00DA)
+                             : (root.brightness < 0.67) ? String.fromCodePoint(0xF00DD)
+                             : String.fromCodePoint(0xF00E0))
+                    value: root.activeMode === "volume"
+                           ? (root.muted ? 0 : root.volume)
+                           : root.brightness
                     to: 1.0
 
-                    onMoved: Pipewire.defaultAudioSink.audio.volume = value
+                    onMoved: {
+                        if (root.activeMode === "volume")
+                            Pipewire.defaultAudioSink.audio.volume = value;
+                        else
+                            root.setBrightness(value);
+                    }
                 }
             }
         }
