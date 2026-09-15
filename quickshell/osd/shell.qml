@@ -196,7 +196,9 @@ Scope {
                 height: osdWindow.pillHeight
                 anchors.verticalCenter: parent.verticalCenter
                 radius: 20
-                deformScale: 0.0005
+                // 0 = pas d'étirement/compression façon gélatine pendant le
+                // glissement, juste la translation gauche/droite.
+                deformScale: 0
 
                 // Le rendu du BlobRect déborde de sa propre largeur/hauteur
                 // logique (marge = blobGroup.smoothing, pour le calcul de
