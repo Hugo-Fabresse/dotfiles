@@ -123,9 +123,14 @@ Scope {
         // affiche la pilule selon l'ordre de connexion).
         screen: Quickshell.screens.find(s => s.name === "eDP-1") ?? Quickshell.screens[0]
 
-        // Namespace dédié pour cibler cette fenêtre précisément dans la
-        // règle de flou Hyprland (layerrule), comme pour wofi/waybar.
+        // Namespace dédié pour pouvoir cibler cette fenêtre précisément
+        // dans une layerrule Hyprland si besoin plus tard.
         WlrLayershell.namespace: "quickshell-osd"
+
+        // Layer "overlay" (au-dessus de "top") pour rester visible
+        // par-dessus une fenêtre en plein écran — sinon le plein écran
+        // passe devant l'OSD et on ne le voit plus du tout.
+        WlrLayershell.layer: WlrLayer.Overlay
 
         // Fenêtre sur toute la hauteur de l'écran, collée à droite — comme
         // la vraie bordure de Caelestia qui longe tout le bord, pas juste
@@ -160,10 +165,7 @@ Scope {
 
             BlobGroup {
                 id: blobGroup
-                // Quasiment transparent (même valeur que wofi : rgba(200,
-                // 200, 200, 0.01) dans wofi/style.css) — c'est le flou
-                // Hyprland qui fait tout le travail visuel, pas la couleur.
-                color: Qt.rgba(200 / 255, 200 / 255, 200 / 255, 0.01)
+                color: "#ffffff"
                 smoothing: 32
             }
 

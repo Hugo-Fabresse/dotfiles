@@ -19,7 +19,7 @@ Slider {
     orientation: Qt.Vertical
 
     background: StyledRect {
-        color: "#33ffffff"
+        color: "#33000000"
         radius: width / 2
 
         StyledRect {
@@ -29,7 +29,7 @@ Slider {
             y: root.handle.y
             implicitHeight: parent.height - y
 
-            color: "#ffffff"
+            color: "#000000"
             radius: parent.radius
         }
     }
