@@ -1,0 +1,2 @@
+module Caelestia
+singleton CUtils 1.0 CUtils.qml

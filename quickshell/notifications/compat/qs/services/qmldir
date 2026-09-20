@@ -1,0 +1,4 @@
+module qs.services
+singleton Colours 1.0 Colours.qml
+singleton Notifs 1.0 Notifs.qml
+NotifData 1.0 NotifData.qml
