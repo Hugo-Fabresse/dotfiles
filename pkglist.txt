@@ -87,6 +87,7 @@ spotify-player
 swaybg
 traceroute
 tree
+tree-sitter-cli
 ttf-jetbrains-mono-nerd
 ttf-maplemono
 unzip
@@ -96,7 +97,6 @@ virtualbox
 vlc
 vulkan-radeon
 vulkan-tools
-waybar
 wireguard-tools
 wireplumber
 wl-clipboard
